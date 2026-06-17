@@ -44,22 +44,25 @@ button {
   display: none;
   background-position: center;
   background-size: cover;
+  opacity: 0;
 }
 
 .screen.is-active {
   display: block;
+  animation: screenIn 420ms ease forwards;
 }
 
 .screen-home {
-  background-image: url("Untitled/1.jpg");
+  background-image: url("assets/images/home-collage.jpg");
 }
 
 .screen-menu {
-  background-image: url("Untitled/3.jpg");
+  background-image: var(--menu-bg, url("assets/images/menu-base.jpg"));
+  transition: background-image 260ms ease;
 }
 
 .screen-player {
-  background-image: url("Untitled/Frame 35.jpg");
+  background-image: url("assets/images/player-record.jpg");
 }
 
 .hotspot,
@@ -85,6 +88,10 @@ button {
   border-radius: 999px;
   background: transparent;
   color: transparent;
+}
+
+.start-button:hover {
+  transform: scale(1.04);
 }
 
 .start-button:focus-visible {
@@ -122,6 +129,7 @@ button {
   background: var(--paper);
   color: var(--blue);
   outline: 0;
+  transform: translateY(-2px);
 }
 
 .playlist-button:active {
@@ -147,6 +155,7 @@ button {
   background: var(--paper-strong);
   color: var(--blue);
   outline: 0;
+  transform: scale(1.05);
 }
 
 .back-button {
@@ -170,6 +179,7 @@ button {
   border-radius: 8px;
   background: rgba(245, 242, 230, 0.72);
   backdrop-filter: blur(4px);
+  animation: panelIn 520ms ease 120ms both;
 }
 
 .eyebrow {
@@ -235,6 +245,14 @@ button {
   height: 100%;
   border-radius: inherit;
   background: var(--blue);
+  animation: progressPulse 4.8s ease-in-out infinite;
+}
+
+.audio-status {
+  min-height: 1.35em;
+  margin: 0 0 18px;
+  color: rgba(28, 51, 82, 0.74);
+  font-size: clamp(14px, 1vw, 17px);
 }
 
 .controls {
@@ -264,6 +282,53 @@ button {
   background: var(--paper-strong);
   color: var(--blue);
   outline: 0;
+  transform: translateY(-2px);
+}
+
+@keyframes screenIn {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes progressPulse {
+  0%,
+  100% {
+    width: 26%;
+  }
+
+  50% {
+    width: 72%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
 }
 
 @media (max-aspect-ratio: 4 / 5) {
