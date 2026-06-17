@@ -1,8 +1,8 @@
 :root {
   --blue: #1c3352;
   --text: #172235;
-  --paper: rgba(239, 238, 231, 0.78);
-  --paper-strong: rgba(245, 242, 230, 0.9);
+  --paper: #efeee7;
+  --paper-strong: #f5f2e6;
 }
 
 * {
@@ -144,7 +144,7 @@ button {
   aspect-ratio: 1;
   place-items: center;
   border-radius: 50%;
-  background: rgba(28, 51, 82, 0.88);
+  background: var(--blue);
   color: #f5f1e8;
   font-size: clamp(32px, 4vw, 54px);
   line-height: 0.8;
