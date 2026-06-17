@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Плейлист жизни</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app" aria-live="polite">
+      <section class="screen screen-home is-active" data-screen="home">
+        <button class="hotspot start-button" type="button" data-open="menu">
+          нажми
+        </button>
+      </section>
+
+      <section class="screen screen-menu" data-screen="menu">
+        <button class="nav-button back-button" type="button" data-open="home" aria-label="Назад">
+          ‹
+        </button>
+
+        <div class="playlist-grid" aria-label="Выбор плейлиста">
+          <button class="playlist-button" type="button" data-playlist="Солнечное детство">
+            Солнечное детство
+          </button>
+          <button class="playlist-button" type="button" data-playlist="Школьный звонок">
+            Школьный звонок
+          </button>
+          <button class="playlist-button" type="button" data-playlist="Уютная зима">
+            Уютная зима
+          </button>
+          <button class="playlist-button" type="button" data-playlist="Ретро-радио">
+            Ретро-радио
+          </button>
+          <button class="playlist-button" type="button" data-playlist="Неоновый город">
+            Неоновый город
+          </button>
+          <button class="playlist-button" type="button" data-playlist="Купе на четверых">
+            Купе на четверых
+          </button>
+        </div>
+      </section>
+
+      <section class="screen screen-player" data-screen="player">
+        <button class="nav-button player-back" type="button" data-open="menu" aria-label="К выбору">
+          ‹
+        </button>
+
+        <article class="player-panel">
+          <p class="eyebrow">выбранный плейлист</p>
+          <h1 id="playlistTitle">Солнечное детство</h1>
+          <p id="playlistMood">Теплая подборка воспоминаний и ярких моментов.</p>
+
+          <div class="progress" aria-hidden="true">
+            <span></span>
+          </div>
+
+          <div class="controls" aria-label="Управление плеером">
+            <button type="button" aria-label="Предыдущий трек">‹‹</button>
+            <button class="play-toggle" type="button" aria-label="Пауза">Ⅱ</button>
+            <button type="button" aria-label="Следующий трек">››</button>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
