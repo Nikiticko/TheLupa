@@ -397,6 +397,17 @@ button {
   pointer-events: none;
 }
 
+.tonearm-layer {
+  position: absolute;
+  z-index: 3;
+  top: -4.2%;
+  right: 5.5%;
+  width: min(32vw, 620px);
+  height: 55%;
+  background: url("assets/images/521pdPDWUOu4qGFEZ8mTmRvsA5glHm3GtZxPeO4DrPvxLLK38-BQth0eY8nHBbK3YvXm01LwB7Z8J_5sRNgN4S-l 1.png") right top / contain no-repeat;
+  pointer-events: none;
+}
+
 .player-panel {
   position: absolute;
   z-index: 2;
@@ -664,5 +675,13 @@ button {
     width: 68vw;
     height: 48vh;
     opacity: 0.62;
+  }
+
+  .tonearm-layer {
+    top: 1%;
+    right: -3%;
+    width: 52vw;
+    height: 32vh;
+    opacity: 0.78;
   }
 }
