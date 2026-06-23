@@ -86,18 +86,41 @@ button {
   width: 12.7%;
   min-width: 128px;
   height: 6.8%;
+  border: 1px solid rgba(28, 51, 82, 0.88);
   border-radius: 999px;
-  background: transparent;
-  color: transparent;
+  background: var(--blue);
+  color: #f5f1e8;
+  font-size: clamp(28px, 3vw, 48px);
+  line-height: 1;
+  box-shadow: 0 8px 20px rgba(16, 29, 48, 0.16);
+  backdrop-filter: blur(0);
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    backdrop-filter 220ms ease;
 }
 
-.start-button:hover {
-  transform: scale(1.04);
+.start-button:hover,
+.start-button:focus-visible {
+  border-color: rgba(255, 255, 255, 0.72);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.62),
+    rgba(239, 238, 231, 0.28)
+  );
+  color: var(--blue);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.78),
+    0 16px 34px rgba(16, 29, 48, 0.18);
+  backdrop-filter: blur(10px) saturate(1.15);
+  transform: translateY(-2px);
 }
 
 .start-button:focus-visible {
-  outline: 4px solid rgba(255, 255, 255, 0.75);
-  outline-offset: 5px;
+  outline: 0;
 }
 
 .playlist-grid {
@@ -254,8 +277,7 @@ button {
 }
 
 .playlist-button:hover,
-.playlist-button:focus-visible,
-.playlist-button.is-selected {
+.playlist-button:focus-visible {
   border-color: rgba(255, 255, 255, 0.72);
   background: linear-gradient(
     135deg,
