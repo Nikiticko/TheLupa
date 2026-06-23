@@ -7,25 +7,17 @@ const soundMap = document.querySelector("#soundMap");
 const playToggle = document.querySelector(".play-toggle");
 const audioPlayer = document.querySelector("#audioPlayer");
 const audioStatus = document.querySelector("#audioStatus");
-const menuScreen = document.querySelector("[data-screen='menu']");
+const playerScreen = document.querySelector("[data-screen='player']");
 const progressBar = document.querySelector(".progress span");
 const prevButton = document.querySelector("[data-action='prev']");
 const nextButton = document.querySelector("[data-action='next']");
-
-const menuImages = {
-  "Солнечное детство": "assets/images/menu-hover-childhood.jpg",
-  "Школьный звонок": "assets/images/menu-hover-school.jpg",
-  "Уютная зима": "assets/images/menu-hover-winter.jpg",
-  "Ретро-радио": "assets/images/menu-hover-retro.jpg",
-  "Неоновый город": "assets/images/menu-hover-neon.jpg",
-  "Купе на четверых": "assets/images/menu-hover-train.jpg"
-};
 
 const playlists = [
   {
     name: "Солнечное детство",
     mood: "Беззаботность, жара и ощущение бесконечного летнего дня.",
     audioSrc: "assets/audio/Солнечное детство.m4a",
+    background: "assets/images/image 213.png",
     layers: [
       ["Базовый трек", "Легкая мажорная инструментальная мелодия: акустическая гитара, укулеле или мягкий синтезатор, средний жизнерадостный темп."],
       ["Фон", "Теплый летний гул воздуха в жаркий день, с очень тихими далекими машинами."],
@@ -36,6 +28,7 @@ const playlists = [
     name: "Школьный звонок",
     mood: "Легкая ностальгия, первая влюбленность и осенняя меланхолия.",
     audioSrc: "assets/audio/Школа.m4a",
+    background: "assets/images/image 215.png",
     layers: [
       ["Базовый трек", "Расслабленный lo-fi hip-hop с мягкой джазовой или соул-пиановой партией."],
       ["Фон", "Шорох сухих листьев под ногами, задающий осеннее настроение."],
@@ -46,6 +39,7 @@ const playlists = [
     name: "Уютная зима",
     mood: "Тепло, покой и безопасность в холодный вечер.",
     audioSrc: "assets/audio/Уютная Зима.m4a",
+    background: "assets/images/image 205.png",
     layers: [
       ["Базовый трек", "Спокойная акустика, мягкое пианино или гитара с глубокими джазовыми аккордами."],
       ["Фон", "Почти полная тишина, чтобы сильнее чувствовался уют комнаты."],
@@ -56,6 +50,7 @@ const playlists = [
     name: "Ретро-радио",
     mood: "Винтажная подача старой записи, теплый свет и легкая пыль времени.",
     audioSrc: "assets/audio/Ретро радио.m4a",
+    background: "assets/images/image 212.png",
     layers: [
       ["Базовый трек", "Классический джаз или ранний рок-н-ролл с намеренно старой подачей."],
       ["Фон", "Заметное виниловое шипение, потрескивание и радиошум."],
@@ -66,6 +61,7 @@ const playlists = [
     name: "Неоновый город",
     mood: "Ночной киберпанк, динамика 80-х и быстрый пульс мегаполиса.",
     audioSrc: "assets/audio/Неоновый город.m4a",
+    background: "assets/images/image 216.png",
     layers: [
       ["Базовый трек", "Энергичный synthwave с пульсирующим аналоговым басом, арпеджио и драм-машиной."],
       ["Фон", "Далекий ночной гул машин и очень тихая сирена на заднем плане."],
@@ -76,6 +72,7 @@ const playlists = [
     name: "Купе на четверых",
     mood: "Дорожный уют, мерное движение и бесконечный вид из окна.",
     audioSrc: "assets/audio/Вагон.m4a",
+    background: "assets/images/image 211.png",
     layers: [
       ["Базовый трек", "Очень спокойный инструментальный lo-fi или ambient без резких переходов."],
       ["Фон", "Ровный глухой стук колес по рельсам, задающий ритм всей композиции."],
@@ -115,6 +112,7 @@ function renderPlaylist(index) {
 
   playlistTitle.textContent = playlist.name;
   playlistMood.textContent = playlist.mood;
+  playerScreen.style.setProperty("--player-bg", `url("${playlist.background}")`);
   soundMap.innerHTML = playlist.layers
     .map(
       ([label, text]) => `
@@ -164,18 +162,6 @@ playlistButtons.forEach((button) => {
   const name = button.dataset.playlist;
 
   button.addEventListener("click", () => selectPlaylist(name));
-  button.addEventListener("pointerenter", () => {
-    menuScreen.style.setProperty("--menu-bg", `url("${menuImages[name]}")`);
-  });
-  button.addEventListener("focus", () => {
-    menuScreen.style.setProperty("--menu-bg", `url("${menuImages[name]}")`);
-  });
-  button.addEventListener("pointerleave", () => {
-    menuScreen.style.removeProperty("--menu-bg");
-  });
-  button.addEventListener("blur", () => {
-    menuScreen.style.removeProperty("--menu-bg");
-  });
 });
 
 playToggle.addEventListener("click", () => {
