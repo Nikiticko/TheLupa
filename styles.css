@@ -6,6 +6,14 @@
   --player-bg: url("assets/images/image 213.png");
 }
 
+@font-face {
+  font-family: "Jura";
+  src: url("assets/font/Jura-VariableFont_wght.ttf") format("truetype");
+  font-display: swap;
+  font-weight: 300 700;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -24,7 +32,7 @@ body {
   overflow: hidden;
   background: #0d1520;
   color: var(--text);
-  font-family: "Trebuchet MS", "Arial", sans-serif;
+  font-family: "Jura", "Trebuchet MS", "Arial", sans-serif;
 }
 
 button {
