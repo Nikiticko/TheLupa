@@ -136,6 +136,12 @@ button {
   outline: 0;
 }
 
+.start-button span {
+  display: block;
+  line-height: 0.9;
+  transform: translateY(-0.04em);
+}
+
 .playlist-grid {
   position: absolute;
   z-index: 2;
