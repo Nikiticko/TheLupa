@@ -1,6 +1,6 @@
 const screens = [...document.querySelectorAll("[data-screen]")];
 const openButtons = document.querySelectorAll("[data-open]");
-const playlistButtons = document.querySelectorAll("[data-playlist]");
+const playlistButtons = [...document.querySelectorAll("[data-playlist]")];
 const playlistTitle = document.querySelector("#playlistTitle");
 const playlistMood = document.querySelector("#playlistMood");
 const soundMap = document.querySelector("#soundMap");
@@ -8,6 +8,9 @@ const playToggle = document.querySelector(".play-toggle");
 const audioPlayer = document.querySelector("#audioPlayer");
 const audioStatus = document.querySelector("#audioStatus");
 const menuScreen = document.querySelector("[data-screen='menu']");
+const progressBar = document.querySelector(".progress span");
+const prevButton = document.querySelector("[data-action='prev']");
+const nextButton = document.querySelector("[data-action='next']");
 
 const menuImages = {
   "Солнечное детство": "assets/images/menu-hover-childhood.jpg",
@@ -18,88 +21,139 @@ const menuImages = {
   "Купе на четверых": "assets/images/menu-hover-train.jpg"
 };
 
-const playlistCopy = {
-  "Солнечное детство": {
+const playlists = [
+  {
+    name: "Солнечное детство",
     mood: "Беззаботность, жара и ощущение бесконечного летнего дня.",
-    audioSrc: "assets/audio/sunny-childhood.mp3",
+    audioSrc: "assets/audio/Солнечное детство.m4a",
     layers: [
-      {
-        label: "Базовый трек",
-        text:
-          "Легкая мажорная инструментальная мелодия в духе upbeat indie-pop: акустическая гитара, укулеле или мягкий синтезатор, средний жизнерадостный темп."
-      },
-      {
-        label: "Фон",
-        text:
-          "Теплый летний гул воздуха в жаркий день, без городского шума. Очень тихо можно добавить далекие глухие машины."
-      },
-      {
-        label: "Детали",
-        text:
-          "Детский смех на площадке вдали и стрекот цикад. Не навязчиво, скорее намеки, из которых мозг дорисовывает картину."
-      }
+      ["Базовый трек", "Легкая мажорная инструментальная мелодия: акустическая гитара, укулеле или мягкий синтезатор, средний жизнерадостный темп."],
+      ["Фон", "Теплый летний гул воздуха в жаркий день, с очень тихими далекими машинами."],
+      ["Детали", "Детский смех на площадке вдали и стрекот цикад, как намек на живую сцену за кадром."]
     ]
   },
-  "Школьный звонок": {
-    mood: "Звуки перемен, первых друзей и длинных коридоров.",
-    audioSrc: "assets/audio/school-bell.mp3",
-    layers: []
+  {
+    name: "Школьный звонок",
+    mood: "Легкая ностальгия, первая влюбленность и осенняя меланхолия.",
+    audioSrc: "assets/audio/Школа.m4a",
+    layers: [
+      ["Базовый трек", "Расслабленный lo-fi hip-hop с мягкой джазовой или соул-пиановой партией."],
+      ["Фон", "Шорох сухих листьев под ногами, задающий осеннее настроение."],
+      ["Детали", "Тихий приглушенный школьный звонок, будто доносящийся из другого этажа."]
+    ]
   },
-  "Уютная зима": {
-    mood: "Мягкие мелодии для морозных вечеров и спокойной памяти.",
-    audioSrc: "assets/audio/cozy-winter.mp3",
-    layers: []
+  {
+    name: "Уютная зима",
+    mood: "Тепло, покой и безопасность в холодный вечер.",
+    audioSrc: "assets/audio/Уютная Зима.m4a",
+    layers: [
+      ["Базовый трек", "Спокойная акустика, мягкое пианино или гитара с глубокими джазовыми аккордами."],
+      ["Фон", "Почти полная тишина, чтобы сильнее чувствовался уют комнаты."],
+      ["Детали", "Тихое потрескивание дров в камине и мягкое ощущение домашнего тепла."]
+    ]
   },
-  "Ретро-радио": {
-    mood: "Ностальгическая волна старых ритмов и случайных открыток.",
-    audioSrc: "assets/audio/retro-radio.mp3",
-    layers: []
+  {
+    name: "Ретро-радио",
+    mood: "Винтажная подача старой записи, теплый свет и легкая пыль времени.",
+    audioSrc: "assets/audio/Ретро радио.m4a",
+    layers: [
+      ["Базовый трек", "Классический джаз или ранний рок-н-ролл с намеренно старой подачей."],
+      ["Фон", "Заметное виниловое шипение, потрескивание и радиошум."],
+      ["Детали", "Короткий щелчок переключателя в начале, как у старого радиоприемника."]
+    ]
   },
-  "Неоновый город": {
-    mood: "Ночной маршрут с яркими огнями и быстрым пульсом.",
-    audioSrc: "assets/audio/neon-city.mp3",
-    layers: []
+  {
+    name: "Неоновый город",
+    mood: "Ночной киберпанк, динамика 80-х и быстрый пульс мегаполиса.",
+    audioSrc: "assets/audio/Неоновый город.m4a",
+    layers: [
+      ["Базовый трек", "Энергичный synthwave с пульсирующим аналоговым басом, арпеджио и драм-машиной."],
+      ["Фон", "Далекий ночной гул машин и очень тихая сирена на заднем плане."],
+      ["Детали", "Короткие синтезаторные вспышки и звук автомобиля, пролетающего мимо в стиле 80-х."]
+    ]
   },
-  "Купе на четверых": {
-    mood: "Дорожный плейлист для разговоров, окон и общего пути.",
-    audioSrc: "assets/audio/train-coupe.mp3",
-    layers: []
+  {
+    name: "Купе на четверых",
+    mood: "Дорожный уют, мерное движение и бесконечный вид из окна.",
+    audioSrc: "assets/audio/Вагон.m4a",
+    layers: [
+      ["Базовый трек", "Очень спокойный инструментальный lo-fi или ambient без резких переходов."],
+      ["Фон", "Ровный глухой стук колес по рельсам, задающий ритм всей композиции."],
+      ["Детали", "Дальний гудок поезда, легкое покачивание вагона и звон ложечки о стакан."]
+    ]
   }
-};
+];
 
-let isPlaying = true;
+let currentIndex = 0;
 
 function showScreen(name) {
   screens.forEach((screen) => {
     screen.classList.toggle("is-active", screen.dataset.screen === name);
   });
+
+  if (name !== "player") {
+    audioPlayer.pause();
+  }
 }
 
-function selectPlaylist(name) {
-  const playlist = playlistCopy[name] || playlistCopy["Солнечное детство"];
+function updatePlayButton() {
+  const isPlaying = !audioPlayer.paused;
+  playToggle.textContent = isPlaying ? "Ⅱ" : "▶";
+  playToggle.setAttribute("aria-label", isPlaying ? "Пауза" : "Воспроизвести");
+}
+
+function setStatus(text) {
+  audioStatus.textContent = text;
+}
+
+function renderPlaylist(index) {
+  const playlist = playlists[index];
 
   playlistButtons.forEach((button) => {
-    button.classList.toggle("is-selected", button.dataset.playlist === name);
+    button.classList.toggle("is-selected", button.dataset.playlist === playlist.name);
   });
 
-  playlistTitle.textContent = name;
+  playlistTitle.textContent = playlist.name;
   playlistMood.textContent = playlist.mood;
-  audioPlayer.src = playlist.audioSrc;
-  audioStatus.textContent = `Ожидается файл: ${playlist.audioSrc}`;
   soundMap.innerHTML = playlist.layers
     .map(
-      (layer) => `
+      ([label, text]) => `
         <div>
-          <dt>${layer.label}</dt>
-          <dd>${layer.text}</dd>
+          <dt>${label}</dt>
+          <dd>${text}</dd>
         </div>
       `
     )
     .join("");
-  isPlaying = true;
-  playToggle.textContent = "Ⅱ";
-  playToggle.setAttribute("aria-label", "Пауза");
+
+  audioPlayer.src = playlist.audioSrc;
+  progressBar.style.width = "0%";
+  setStatus(`Загружается: ${playlist.name}`);
+}
+
+function playCurrent() {
+  audioPlayer.play().catch(() => {
+    setStatus("Нажми ▶, если браузер заблокировал автозапуск");
+    updatePlayButton();
+  });
+}
+
+function selectPlaylist(name, shouldPlay = true) {
+  const index = playlists.findIndex((playlist) => playlist.name === name);
+  currentIndex = index >= 0 ? index : 0;
+
+  renderPlaylist(currentIndex);
   showScreen("player");
+
+  if (shouldPlay) {
+    playCurrent();
+  }
+}
+
+function shiftPlaylist(step) {
+  currentIndex = (currentIndex + step + playlists.length) % playlists.length;
+  renderPlaylist(currentIndex);
+  playCurrent();
 }
 
 openButtons.forEach((button) => {
@@ -107,18 +161,14 @@ openButtons.forEach((button) => {
 });
 
 playlistButtons.forEach((button) => {
-  button.addEventListener("click", () => selectPlaylist(button.dataset.playlist));
+  const name = button.dataset.playlist;
+
+  button.addEventListener("click", () => selectPlaylist(name));
   button.addEventListener("pointerenter", () => {
-    menuScreen.style.setProperty(
-      "--menu-bg",
-      `url("${menuImages[button.dataset.playlist]}")`
-    );
+    menuScreen.style.setProperty("--menu-bg", `url("${menuImages[name]}")`);
   });
   button.addEventListener("focus", () => {
-    menuScreen.style.setProperty(
-      "--menu-bg",
-      `url("${menuImages[button.dataset.playlist]}")`
-    );
+    menuScreen.style.setProperty("--menu-bg", `url("${menuImages[name]}")`);
   });
   button.addEventListener("pointerleave", () => {
     menuScreen.style.removeProperty("--menu-bg");
@@ -129,22 +179,38 @@ playlistButtons.forEach((button) => {
 });
 
 playToggle.addEventListener("click", () => {
-  isPlaying = !isPlaying;
-  playToggle.textContent = isPlaying ? "Ⅱ" : "▶";
-  playToggle.setAttribute("aria-label", isPlaying ? "Пауза" : "Воспроизвести");
-
-  if (!audioPlayer.src) {
-    return;
-  }
-
-  if (isPlaying) {
-    audioPlayer.play().catch(() => {
-      audioStatus.textContent = "Аудиофайл еще не найден в assets/audio";
-      isPlaying = false;
-      playToggle.textContent = "▶";
-      playToggle.setAttribute("aria-label", "Воспроизвести");
-    });
+  if (audioPlayer.paused) {
+    playCurrent();
   } else {
     audioPlayer.pause();
   }
 });
+
+prevButton.addEventListener("click", () => shiftPlaylist(-1));
+nextButton.addEventListener("click", () => shiftPlaylist(1));
+
+audioPlayer.addEventListener("play", () => {
+  setStatus(`Играет: ${playlists[currentIndex].name}`);
+  updatePlayButton();
+});
+
+audioPlayer.addEventListener("pause", updatePlayButton);
+
+audioPlayer.addEventListener("ended", () => shiftPlaylist(1));
+
+audioPlayer.addEventListener("error", () => {
+  setStatus("Не удалось загрузить аудиофайл");
+  updatePlayButton();
+});
+
+audioPlayer.addEventListener("timeupdate", () => {
+  if (!audioPlayer.duration) {
+    return;
+  }
+
+  const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+  progressBar.style.width = `${Math.min(progress, 100)}%`;
+});
+
+selectPlaylist(playlists[0].name, false);
+showScreen("home");

@@ -52,7 +52,7 @@
           <p id="playlistMood">Теплая подборка воспоминаний и ярких моментов.</p>
           <dl class="sound-map" id="soundMap"></dl>
 
-          <div class="progress" aria-hidden="true">
+          <div class="progress" aria-label="Прогресс трека">
             <span></span>
           </div>
 
@@ -60,9 +60,9 @@
           <audio id="audioPlayer" preload="metadata"></audio>
 
           <div class="controls" aria-label="Управление плеером">
-            <button type="button" aria-label="Предыдущий трек">‹‹</button>
+            <button type="button" data-action="prev" aria-label="Предыдущий трек">‹‹</button>
             <button class="play-toggle" type="button" aria-label="Пауза">Ⅱ</button>
-            <button type="button" aria-label="Следующий трек">››</button>
+            <button type="button" data-action="next" aria-label="Следующий трек">››</button>
           </div>
         </article>
       </section>

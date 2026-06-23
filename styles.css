@@ -241,11 +241,11 @@ button {
 
 .progress span {
   display: block;
-  width: 42%;
+  width: 0%;
   height: 100%;
   border-radius: inherit;
   background: var(--blue);
-  animation: progressPulse 4.8s ease-in-out infinite;
+  transition: width 180ms linear;
 }
 
 .audio-status {
@@ -309,16 +309,6 @@ button {
   }
 }
 
-@keyframes progressPulse {
-  0%,
-  100% {
-    width: 26%;
-  }
-
-  50% {
-    width: 72%;
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,
