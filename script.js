@@ -136,22 +136,28 @@ function playCurrent() {
   });
 }
 
-function selectPlaylist(name, shouldPlay = true) {
+function selectPlaylist(name) {
   const index = playlists.findIndex((playlist) => playlist.name === name);
   currentIndex = index >= 0 ? index : 0;
 
   renderPlaylist(currentIndex);
   showScreen("player");
-
-  if (shouldPlay) {
-    playCurrent();
-  }
+  audioPlayer.pause();
+  updatePlayButton();
+  setStatus(`Готово к запуску: ${playlists[currentIndex].name}`);
 }
 
 function shiftPlaylist(step) {
+  const wasPlaying = !audioPlayer.paused;
   currentIndex = (currentIndex + step + playlists.length) % playlists.length;
   renderPlaylist(currentIndex);
-  playCurrent();
+
+  if (wasPlaying) {
+    playCurrent();
+  } else {
+    updatePlayButton();
+    setStatus(`Готово к запуску: ${playlists[currentIndex].name}`);
+  }
 }
 
 openButtons.forEach((button) => {
@@ -182,7 +188,12 @@ audioPlayer.addEventListener("play", () => {
 
 audioPlayer.addEventListener("pause", updatePlayButton);
 
-audioPlayer.addEventListener("ended", () => shiftPlaylist(1));
+audioPlayer.addEventListener("ended", () => {
+  progressBar.style.width = "0%";
+  audioPlayer.currentTime = 0;
+  setStatus(`Трек завершен: ${playlists[currentIndex].name}`);
+  updatePlayButton();
+});
 
 audioPlayer.addEventListener("error", () => {
   setStatus("Не удалось загрузить аудиофайл");
@@ -198,5 +209,5 @@ audioPlayer.addEventListener("timeupdate", () => {
   progressBar.style.width = `${Math.min(progress, 100)}%`;
 });
 
-selectPlaylist(playlists[0].name, false);
+selectPlaylist(playlists[0].name);
 showScreen("home");
